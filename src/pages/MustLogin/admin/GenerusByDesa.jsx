@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { GoPackage } from "react-icons/go";
-import { FaEye } from "react-icons/fa";
-import { MdModeEdit, MdDelete } from "react-icons/md";
-import { CiSearch } from "react-icons/ci";
 import { FaFilter, FaFileExport } from "react-icons/fa";
 import { GrNext } from "react-icons/gr";
 import { GrPrevious } from "react-icons/gr";
 import ReactPaginate from "react-paginate";
 import axios from "axios";
 import { message, Tabs, Input, Button } from "antd";
-import * as XLSX from "xlsx"; // Import library xlsx
+import ExcelJS from "exceljs"; // Import library exceljs
 import { useParams } from "react-router-dom";
 
 const GenerusByDesa = () => {
@@ -331,7 +328,7 @@ const GenerusByDesa = () => {
     }
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
     // Data untuk diekspor
     const dataToExport = filteredData.map((item, index) => ({
       No: index + 1,
@@ -345,13 +342,42 @@ const GenerusByDesa = () => {
       "Gol. Darah": item.gol_darah,
     }));
 
-    // Buat worksheet dan workbook
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data Generus");
+    // Buat workbook dan worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Data Generus");
+
+    // Tambahkan header
+    worksheet.columns = [
+      { header: "No", key: "No", width: 5 },
+      { header: "Nama", key: "Nama", width: 20 },
+      { header: "Kelompok", key: "Kelompok", width: 20 },
+      { header: "Desa", key: "Desa", width: 20 },
+      { header: "Jenjang", key: "Jenjang", width: 20 },
+      { header: "Tgl Lahir", key: "Tgl Lahir", width: 15 },
+      { header: "Umur", key: "Umur", width: 10 },
+      { header: "Jenis Kelamin", key: "Jenis Kelamin", width: 15 },
+      { header: "Gol. Darah", key: "Gol. Darah", width: 15 },
+    ];
+
+    // Tambahkan data
+    worksheet.addRows(dataToExport);
+
+    // Format header
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true };
+    });
 
     // Simpan file
-    XLSX.writeFile(workbook, "Data_Generus.xlsx");
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Data_Generus.xlsx";
+    a.click();
+    URL.revokeObjectURL(url);
   };
   return (
     <>
