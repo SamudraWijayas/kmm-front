@@ -1,0 +1,231 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@media only screen and (max-width: 768px) {
+  .box-area {
+    margin: 0 10px;
+  }
+  .left-box {
+    height: 100px;
+    overflow: hidden;
+  }
+  .right-box {
+    padding: 20px;
+  }
+}
+
+@layer base {
+  body {
+    @apply [scrollbar-color:_#cbd5e1_transparent] dark:[scrollbar-color:_#334155_transparent];
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden {
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}
+
+@layer components {
+  .sidebar-group {
+    @apply flex w-full flex-col gap-y-2;
+  }
+
+  .sidebar-group-title {
+    @apply overflow-hidden text-ellipsis text-sm font-medium text-slate-600 dark:text-slate-400;
+  }
+
+  .sidebar-item {
+    @apply flex h-[40px] w-full flex-shrink-0 items-center gap-x-3 rounded-lg p-3 text-base font-medium text-slate-900 transition-colors hover:bg-blue-50 dark:text-slate-50 dark:hover:bg-blue-950;
+    &.active {
+      @apply bg-blue-500 text-slate-50 dark:bg-blue-600;
+    }
+  }
+
+  .title {
+    @apply text-3xl font-semibold text-slate-900 transition-colors dark:text-slate-50;
+  }
+
+  .btn-ghost {
+    @apply flex h-10 flex-shrink-0 items-center justify-center gap-x-2 rounded-lg p-2 text-slate-400 transition-colors hover:bg-blue-50 hover:text-slate-500 dark:hover:bg-blue-950 dark:hover:text-slate-300;
+  }
+
+  .link {
+    @apply text-base font-medium text-slate-900 transition-colors hover:underline dark:text-slate-50;
+  }
+
+  .input {
+    @apply hidden h-10 flex-shrink-0 items-center gap-x-2 rounded-lg border border-slate-300 px-2 text-base text-slate-900 transition-colors has-[input:focus]:border-blue-500 md:flex md:w-auto lg:w-80 dark:border-slate-700 dark:text-slate-50 dark:focus:border-blue-600;
+  }
+
+  .card {
+    @apply flex flex-col gap-y-4 rounded-lg border border-slate-300 bg-white p-4 transition-colors dark:border-slate-700 dark:bg-slate-900;
+  }
+
+  .card-header {
+    @apply flex items-center gap-x-2;
+  }
+
+  .card-title {
+    @apply font-medium text-slate-900 transition-colors dark:text-slate-50;
+  }
+
+  .card-body {
+    @apply flex flex-col gap-y-2 rounded-lg p-4;
+  }
+
+  .table {
+    @apply h-full w-full text-slate-900 dark:text-slate-50;
+  }
+
+  .table-header {
+    @apply sticky top-0 bg-slate-200 transition-[background] dark:bg-slate-800;
+  }
+
+  .table-row {
+    @apply border-b border-slate-300 transition-colors last:border-none dark:border-slate-700;
+  }
+
+  .table-head {
+    @apply h-12 px-4 text-start;
+  }
+
+  .table-cell {
+    @apply w-fit whitespace-nowrap p-4 font-medium;
+  }
+}
+
+Input {
+  @apply dark:bg-slate-800;
+}
+.recharts-default-tooltip {
+  @apply !rounded-lg !border !border-slate-300 !bg-white transition-colors dark:!border-slate-700 dark:!bg-slate-900;
+}
+
+.recharts-tooltip-label {
+  @apply text-base font-medium text-slate-900 dark:text-slate-50;
+}
+
+.recharts-tooltip-item {
+  @apply text-base font-medium !text-blue-500 dark:!text-blue-600;
+}
+
+.pagination .page-item {
+  margin-right: 8px; /* Adjust the value to your preference */
+}
+
+/* Remove borders and focus outline from the page buttons */
+.pagination .page-link {
+  border: none;
+  padding: 5px 12px; /* Optional: Adjust padding */
+  outline: none; /* Remove focus outline */
+}
+
+/* Remove focus style when a button is clicked */
+.pagination .page-item:focus,
+.pagination .page-link:focus {
+  outline: none; /* Remove the outline for focused elements */
+  box-shadow: none; /* Remove any shadow effects for focused elements */
+}
+
+/* Adjust active class to highlight selected page without border */
+.pagination .active .page-link {
+  background-color: #007bff; /* Your active color */
+  color: white;
+  border-radius: 4px;
+}
+
+/* Remove border from the "Previous" and "Next" buttons */
+.pagination .page-item .page-link {
+  border: none;
+  padding: 5px 12px; /* Optional: Adjust padding */
+}
+
+/* Modal Styling */
+/* Posisi Modal ke Tengah */
+.custom-modal .ant-modal-content {
+  top: 10% !important;
+  transform: translateY(-10%) !important;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.custom-modal .ant-modal-body {
+  overflow-y: auto; /* Membuat form bisa di-scroll */
+  max-height: calc(80vh - 60px); /* Sesuaikan dengan tinggi modal */
+  padding: 10px;
+}
+
+/* Pastikan modal title tetap di atas */
+.custom-modal .ant-modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #fff; /* Background agar title tetap terlihat */
+  border-bottom: 1px solid #e8e8e8;
+}
+
+/* Tambahan styling untuk form agar lebih baik */
+.custom-modal .ant-form-item-label {
+  font-weight: bold;
+}
+
+/* CSS untuk disabled field */
+.ant-input[disabled],
+.ant-select-disabled .ant-select-selector,
+.ant-radio-button[disabled],
+.ant-radio[disabled],
+.ant-input-number[disabled] {
+  background-color: #f0f0f0 !important; /* Warna latar belakang lebih terang */
+  color: #000 !important; /* Warna teks lebih gelap */
+  border-color: #d9d9d9 !important; /* Warna border lebih gelap */
+}
+
+.ant-select-disabled .ant-select-arrow {
+  color: #000 !important; /* Warna panah di dropdown disabled */
+}
+
+.ant-btn[disabled] {
+  background-color: #f0f0f0 !important;
+  border-color: #d70606 !important;
+  color: #e20000 !important;
+}
+/* Menyesuaikan warna teks pada input DatePicker */
+/* CSS untuk mengubah warna teks pada DatePicker yang dinonaktifkan */
+.ant-picker-input[readonly] {
+  color: #c70000 !important; /* Menambahkan warna teks abu-abu */
+}
+.export {
+  background-color: #198754;
+  color: white;
+}
+.age {
+  background-color: #ffc107;
+}
+.delete {
+  background-color: #dc3545;
+  color: white;
+}
+.btn-view {
+  color: #007bff;
+  border: 0;
+  background: #007bff30;
+}
+.btn-delete {
+  color: #dc3545;
+  background: #d7060636;
+  border: 0;
+}
+.btn-edit {
+  color: #ffc107;
+  background: #ffc10736;
+  border: 0;
+}
